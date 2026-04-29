@@ -1,0 +1,45 @@
+#include <stdio.h>
+
+int main() {
+    int n, m, i, j;
+
+    printf("Enter number of processes: ");
+    scanf("%d", &n);
+
+    printf("Enter number of resources: ");
+    scanf("%d", &m);
+
+    int allocation[n][m];
+
+    // Input Allocation Matrix
+    printf("Enter Allocation Matrix:\n");
+    for(i = 0; i < n; i++) {
+        for(j = 0; j < m; j++) {
+            scanf("%d", &allocation[i][j]);
+        }
+    }
+
+    // Deadlock Prevention Check (Resource Ordering)
+    printf("\nChecking Deadlock Prevention using Resource Ordering...\n");
+
+    int safe = 1;
+
+    for(i = 0; i < n; i++) {
+        for(j = 1; j < m; j++) {
+            if(allocation[i][j] < allocation[i][j - 1]) {
+                printf("Process P%d violates resource ordering\n", i);
+                safe = 0;
+                break;
+            }
+        }
+    }
+
+    if(safe == 1) {
+        printf("All processes follow resource ordering.\n");
+        printf("Deadlock is PREVENTED.\n");
+    } else {
+        printf("Deadlock may occur (ordering not followed).\n");
+    }
+
+    return 0;
+}
